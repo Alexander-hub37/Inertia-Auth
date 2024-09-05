@@ -43,7 +43,7 @@ label {
   @apply w-full px-4 py-1.5 rounded-lg bg-white mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none;
 
   &.input-error {
-      @apply border-red-500; // Borde rojo si hay un error
+      @apply border-red-500; 
   }
 }
 

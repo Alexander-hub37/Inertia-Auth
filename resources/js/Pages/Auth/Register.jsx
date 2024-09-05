@@ -1,4 +1,3 @@
-// pages/Register.jsx
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import InputField from "../../Components/InputField";

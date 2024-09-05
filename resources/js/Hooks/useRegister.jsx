@@ -1,4 +1,3 @@
-// hooks/useRegister.js
 import { useState } from 'react';
 import { registerService } from '../Services/registerService';
 import { router } from '@inertiajs/react';
