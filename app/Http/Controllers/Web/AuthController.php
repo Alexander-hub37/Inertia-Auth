@@ -23,7 +23,7 @@ class AuthController extends Controller
         return Inertia::render('Auth/Register');
     }
 
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
         $token = $request->input('token');
         if ($token) {         

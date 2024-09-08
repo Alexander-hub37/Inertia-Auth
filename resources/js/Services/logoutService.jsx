@@ -1,3 +1,5 @@
+import axios from 'axios';
+
 export const logoutService = async () => {
     const token = localStorage.getItem('token');
 
@@ -6,31 +8,27 @@ export const logoutService = async () => {
     }
 
     try {
-        const response = await fetch('/api/logout', {
-            method: 'POST',
+        const response = await axios.post('/api/logout', {}, {
             headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`, 
+                'Authorization': `Bearer ${token}`,
             },
         });
 
-        const data = await response.json();
-
-
-        if (response.ok) {
-            localStorage.removeItem('token');
-            return {
-                status: 200,
-                message: 'Logout successful',
-            };
-        }
+        localStorage.removeItem('token'); 
 
         return {
-            status: response.status,
-            message: data.message || 'Failed to log out.',
+            status: 200,
+            message: 'Logout successful',
         };
 
     } catch (error) {
+        if (error.response) {
+            return {
+                status: error.response.status,
+                message: error.response.data.message || 'Failed to log out.',
+            };
+        }
+
         return {
             status: 500,
             message: 'An error occurred. Please try again.',

@@ -1,34 +1,24 @@
+import axios from 'axios';
+
 export const loginService = async (data) => {
     try {
-        const response = await fetch('/api/login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(data),
-        });
+        const response = await axios.post('/api/login', data);
 
-        const responseData = await response.json();
+        return {
+            status: response.status,
+            data: response.data,
+        };
 
-        if (response.status === 401 || response.status === 422) {
-            
+    } catch (error) {
+        if (error.response) {
+         
             return {
-                status: response.status,
-                message: responseData.message || responseData.errors, 
+                status: error.response.status,
+                message: error.response.data.message || error.response.data.errors,
             };
         }
 
 
-        if (!response.ok) {
-            throw new Error('An error occurred. Please try again.');
-        }
-
-        return {
-            status: response.status,
-            data: responseData,
-        };
-
-    } catch (error) {
         return {
             status: 'error',
             message: error.message || 'An error occurred. Please try again.',

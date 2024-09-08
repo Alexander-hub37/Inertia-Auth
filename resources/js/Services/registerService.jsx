@@ -1,34 +1,23 @@
+import axios from 'axios';
+
 export const registerService = async (data) => {
     try {
-        const response = await fetch('/api/register', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(data),
-        });
-
-        const responseData = await response.json();
-
-        if (response.status === 401 || response.status === 422) {
-            
-            return {
-                status: response.status,
-                message: responseData.message || responseData.errors,  
-            };
-        }
-
-        
-        if (!response.ok) {
-            throw new Error('An error occurred. Please try again.');
-        }
+        const response = await axios.post('/api/register', data);
 
         return {
             status: response.status,
-            data: responseData,
+            data: response.data,
         };
 
     } catch (error) {
+        if (error.response) {
+            
+            return {
+                status: error.response.status,
+                message: error.response.data.message || error.response.data.errors,
+            };
+        }
+
         return {
             status: 'error',
             message: error.message || 'An error occurred. Please try again.',
